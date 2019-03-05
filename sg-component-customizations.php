@@ -45,7 +45,6 @@ function sg_cp_add_base_price( $data, $component_option ) {
 
 				$old = $data['option_price_html'];
 
-				$data['option_price_html'] = wc_price( $total_price );
 				$min_price                 = $component_option->min_price;
 				$max_price                 = $component_option->max_price;
 				if ( $min_price == $max_price ) {
