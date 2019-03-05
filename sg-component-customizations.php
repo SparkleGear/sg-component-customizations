@@ -6,12 +6,14 @@ add_filter( 'woocommerce_composite_component_data', 'sg_woocommerce_composite_co
 function sg_woocommerce_composite_component_data( $data, $i, $composite ) {
 
 	if ( 'Apparel or Accessory' == $data['title'] || 'apparel_that_fits' == $data['query_type'] ) {
-		$data['title']            = 'Apparel or Accessory';
-		$data['query_type']       = 'apparel_that_fits';
-		$data['selection_mode']   = 'thumbnails';
-		$data['pagination_style'] = 'load-more';
-		$data['display_prices']   = 'absolute';
-		$data['show_orderby']     = 'yes';
+		$data['title']                = 'Apparel or Accessory';
+		$data['query_type']           = 'apparel_that_fits';
+		$data['selection_mode']       = 'thumbnails';
+		$data['pagination_style']     = 'load-more';
+		$data['display_prices']       = 'absolute';
+		$data['show_orderby']         = 'yes';
+		$data['hide_subtotal_cart']   = 'yes';
+		$data['hide_subtotal_orders'] = 'yes';
 	}
 
 	return $data;
@@ -45,8 +47,8 @@ function sg_cp_add_base_price( $data, $component_option ) {
 
 				$old = $data['option_price_html'];
 
-				$min_price                 = $component_option->min_price;
-				$max_price                 = $component_option->max_price;
+				$min_price = $component_option->min_price;
+				$max_price = $component_option->max_price;
 				if ( $min_price == $max_price ) {
 					$total_price               = $base_price + $option_price;
 					$data['option_price_html'] = wc_price( $total_price );
@@ -114,4 +116,12 @@ function sg_find_portfolio_thumbnail( $data, $component_option ) {
 
 
 	return $data;
+}
+
+
+add_filter( 'woocommerce_add_composited_order_item_subtotals', 'sg_hide_order_item_subtotals', 10, 3 );
+function sg_hide_order_item_subtotals( $show, $parent_item, $order ) {
+	$show = false;
+
+	return $show;
 }
