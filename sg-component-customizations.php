@@ -12,9 +12,11 @@ function sg_woocommerce_composite_component_data( $data, $i, $composite ) {
 		$data['pagination_style']     = 'load-more';
 		$data['display_prices']       = 'absolute';
 		$data['show_orderby']         = 'yes';
-		$data['hide_subtotal_cart']   = 'yes';
-		$data['hide_subtotal_orders'] = 'yes';
 	}
+
+	// always do this
+	$data['hide_subtotal_cart']   = 'yes';
+	$data['hide_subtotal_orders'] = 'yes';
 
 	return $data;
 }
