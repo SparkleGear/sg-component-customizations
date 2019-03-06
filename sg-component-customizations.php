@@ -89,7 +89,6 @@ function sg_find_mockup_thumbnail( $data, $component_option ) {
 
 	}
 
-
 	return $data;
 }
 
