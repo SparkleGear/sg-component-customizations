@@ -120,10 +120,22 @@ function sg_find_portfolio_thumbnail( $data, $component_option ) {
 	return $data;
 }
 
+/*
+From support ...
+We took a look and this what we found out:
+Component subtotals are hidden in cart/order templates by this function: https://cl.ly/961a4d1cad6f and not by this: https://cl.ly/1616c41df5a0.
+This function: https://cl.ly/1616c41df5a0 prevents component totals from being aggregated next to the parent Composite item, as mentioned in our documentation: https://cl.ly/ab08730f384e. Could you please try removing it?
 
-add_filter( 'woocommerce_add_composited_order_item_subtotals', 'sg_hide_order_item_subtotals', 10, 3 );
+*/
+//add_filter( 'woocommerce_add_composited_order_item_subtotals', 'sg_hide_order_item_subtotals', 10, 3 );
+/**
+ * @param boolean $show
+ * @param $parent_item
+ * @param $order
+ *
+ * @return bool
+ */
 function sg_hide_order_item_subtotals( $show, $parent_item, $order ) {
 	$show = false;
-
 	return $show;
 }
