@@ -6,17 +6,18 @@ add_filter( 'woocommerce_composite_component_data', 'sg_woocommerce_composite_co
 function sg_woocommerce_composite_component_data( $data, $i, $composite ) {
 
 	if ( 'Apparel or Accessory' == $data['title'] || 'apparel_that_fits' == $data['query_type'] ) {
-		$data['title']                = 'Apparel or Accessory';
-		$data['query_type']           = 'apparel_that_fits';
-		$data['selection_mode']       = 'thumbnails';
-		$data['pagination_style']     = 'load-more';
-		$data['display_prices']       = 'absolute';
-		$data['show_orderby']         = 'yes';
+		$data['title']            = 'Apparel or Accessory';
+		$data['query_type']       = 'apparel_that_fits';
+		$data['selection_mode']   = 'thumbnails';
+		$data['pagination_style'] = 'load-more';
+		$data['display_prices']   = 'absolute';
+		$data['show_orderby']     = 'yes';
 	}
 
 	// always do this
-	$data['hide_subtotal_cart']   = 'yes';
-	$data['hide_subtotal_orders'] = 'yes';
+	$data['hide_subtotal_cart']    = 'yes';
+	$data['hide_subtotal_orders']  = 'yes';
+	$data['hide_subtotal_product'] = 'yes';
 
 	return $data;
 }
@@ -137,5 +138,6 @@ This function: https://cl.ly/1616c41df5a0 prevents component totals from being a
  */
 function sg_hide_order_item_subtotals( $show, $parent_item, $order ) {
 	$show = false;
+
 	return $show;
 }
