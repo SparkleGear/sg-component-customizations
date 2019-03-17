@@ -1,5 +1,6 @@
 <?php
 
+include_once 'component-thumbnails.php';
 
 add_filter( 'woocommerce_composite_component_data', 'sg_woocommerce_composite_component_data', 10, 3 );
 
