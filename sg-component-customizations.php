@@ -54,6 +54,15 @@ function sg_cp_add_base_price( $data, $component_option ) {
 
 				$min_price = $component_option->min_price;
 				$max_price = $component_option->max_price;
+				if ( ! is_numeric( $min_price ) ) {
+					error_log( __FUNCTION__ . ' non numeric min price? ' .var_export( $data, true ) );
+				}
+
+				if ( ! is_numeric( $max_price ) ) {
+					error_log( __FUNCTION__ . ' non numeric max price?' . var_export( $data, true ) );
+					$max_price = $min_price;
+				}
+
 				if ( $min_price == $max_price ) {
 					$total_price               = $base_price + $option_price;
 					$data['option_price_html'] = wc_price( $total_price );
