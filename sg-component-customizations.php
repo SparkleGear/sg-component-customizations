@@ -14,12 +14,13 @@ function sg_woocommerce_composite_component_data( $data, $i, $composite ) {
 		$data['pagination_style'] = 'load-more';
 		$data['display_prices']   = 'absolute';
 		$data['show_orderby']     = 'yes';
-		}
+	}
 
 	// always do this
 	$data['hide_subtotal_cart']    = 'yes';
 	$data['hide_subtotal_orders']  = 'yes';
 	$data['hide_subtotal_product'] = 'yes';
+	$data['priced_individually']   = 'yes';
 
 	return $data;
 }
@@ -55,7 +56,7 @@ function sg_cp_add_base_price( $data, $component_option ) {
 				$min_price = $component_option->min_price;
 				$max_price = $component_option->max_price;
 				if ( ! is_numeric( $min_price ) ) {
-					error_log( __FUNCTION__ . ' non numeric min price? ' .var_export( $data, true ) );
+					error_log( __FUNCTION__ . ' non numeric min price? ' . var_export( $data, true ) );
 				}
 
 				if ( ! is_numeric( $max_price ) ) {
@@ -141,8 +142,8 @@ This function: https://cl.ly/1616c41df5a0 prevents component totals from being a
 //add_filter( 'woocommerce_add_composited_order_item_subtotals', 'sg_hide_order_item_subtotals', 10, 3 );
 /**
  * @param boolean $show
- * @param $parent_item
- * @param $order
+ * @param         $parent_item
+ * @param         $order
  *
  * @return bool
  */
