@@ -132,6 +132,7 @@ function sg_find_portfolio_thumbnail( $data, $component_option ) {
 	return $data;
 }
 
+
 /*
 From support ...
 We took a look and this what we found out:
@@ -151,4 +152,11 @@ function sg_hide_order_item_subtotals( $show, $parent_item, $order ) {
 	$show = false;
 
 	return $show;
+}
+
+add_filter( 'woocommerce_format_price_range', 'sg_format_price_range', 99, 3 );
+function sg_format_price_range( $price, $from, $to ) {
+	/* translators: 1: price from 2: price to */
+	$price = sprintf( _x( 'From %1$s', 'Price range: from-to', 'woocommerce' ), is_numeric( $from ) ? wc_price( $from ) : $from);
+	return $price;
 }
