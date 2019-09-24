@@ -160,3 +160,20 @@ function sg_format_price_range( $price, $from, $to ) {
 	$price = sprintf( _x( 'From %1$s', 'Price range: from-to', 'woocommerce' ), is_numeric( $from ) ? wc_price( $from ) : $from);
 	return $price;
 }
+
+
+/**
+ * Filters whether we're hiding a virtual item from packing lists and pick lists.
+ *
+ * @since 3.1.1
+ *
+ * @param bool $hide_virtual_item Whether we're hiding an item or not
+ * @param \WC_Product $product Product object
+ * @param array|\WC_Order_Item_Product $item Order item
+ * @param \WC_Order $order Order object
+ */
+function sg_show_virtual_items_packing_list( $hide_virtual_item, $product, $item, $order ) {
+	return false;
+}
+
+add_filter( 'wc_pip_packing-list_hide_virtual_item', 'sg_show_virtual_items_packing_list', 10, 4 );
