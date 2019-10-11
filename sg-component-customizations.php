@@ -17,7 +17,7 @@ function sg_woocommerce_composite_component_data( $data, $i, $composite ) {
 	}
 
 	// always do this
-	$data['hide_subtotal_cart']    = 'no';
+	$data['hide_subtotal_cart']    = 'yes';
 	$data['hide_subtotal_orders']  = 'yes';
 	$data['hide_subtotal_product'] = 'yes';
 	$data['priced_individually']   = 'yes';
@@ -191,7 +191,7 @@ function sg_show_virtual_items_packing_list( $hide_virtual_item, $product, $item
 
 add_filter( 'wc_pip_packing-list_hide_virtual_item', 'sg_show_virtual_items_packing_list', 10, 4 );
 
-add_filter( 'woocommerce_product_is_taxable', 'sg_is_composite_taxable', 10, 2 );
+//add_filter( 'woocommerce_product_is_taxable', 'sg_is_composite_taxable', 10, 2 );
 
 /**
  * @param boolean              $is_taxable
@@ -213,8 +213,9 @@ function sg_is_composite_taxable( $is_taxable, $product ) {
 			if ( property_exists( $component, 'products' ) ) {
 				$products = $component->products;
 				if ( is_array( $products ) ) {
-					foreach ( $products as $id => $cp_product ) {
-						$component_product = $cp_product->get_product();
+					foreach ( $products as $id => &$cp_product ) {
+						$component_product = &$cp_product->product;
+						$composite_product = &$cp_product->composite;
 						if ( $component_product ) {
 							$component_is_taxable = ( $component_product->get_tax_status() === 'taxable' ) && wc_tax_enabled();
 							// TODO: Make this hack go way, should be configuration driven
@@ -235,13 +236,15 @@ function sg_is_composite_taxable( $is_taxable, $product ) {
 							if ( has_term( 'blank-accessories', 'product_cat', $product_id ) ) {
 								error_log( __FUNCTION__ . ' setting tax status based on blank item ACCESSORY' );
 								$is_taxable = true;
-								$component_product->set_tax_status( 'taxable' );
+								$component->products[ $id ]->composite->set_tax_status( 'taxable' );
+								$component->products[ $id ]->product->set_tax_status( 'taxable' );
 							}
 
 							if ( has_term( 'blank-apparel', 'product_cat', $product_id ) ) {
 								error_log( __FUNCTION__ . ' setting tax status based on blank item APPAREL' );
 								$is_taxable = false;
-								$component_product->set_tax_status( 'none' );
+								$component->products[ $id ]->composite->set_tax_status( 'none' );
+								$component->products[ $id ]->product->set_tax_status( 'none' );
 							}
 
 							$m = __FUNCTION__ . ' END component ' . $component_product->get_title() . ' is ' . ( $component_is_taxable ? '' : 'not ' ) . 'taxable';
@@ -249,6 +252,8 @@ function sg_is_composite_taxable( $is_taxable, $product ) {
 
 							$x = __FUNCTION__ . ' END composite ' . $product->get_title() . ' is ' . ( $is_taxable ? '' : 'not ' ) . 'taxable';
 							error_log( $x );
+
+//							$cp_product->set_product( $component_product );
 						}
 					}
 				}
